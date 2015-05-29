@@ -14,10 +14,6 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%----------------------------------------------------------------------------------------
-%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
-%----------------------------------------------------------------------------------------
-
 \documentclass[a0paper,portrait]{baposter}
 \usepackage[utf8]{inputenc} % input encoding : utf8, latin9, latin1
 \usepackage[french]{babel} % document language : typography + titles...
@@ -48,125 +44,99 @@
 \begin{document}
 
 \background{ % Set the background to an image (background.pdf)
-\begin{tikzpicture}[remember picture,overlay]
-\draw (current page.north west)+(-2em,2em) node[anchor=north west]
-{\includegraphics[height=1.1\textheight]{background}};
-\end{tikzpicture}
+    \begin{tikzpicture}[remember picture,overlay]
+        \draw (current page.north west)+(-2em,2em) node[anchor=north west]
+        {\includegraphics[height=1.1\textheight]{background}};
+    \end{tikzpicture}
 }
 
 \begin{poster}{
-grid=false,
-borderColor=bordercol, % Border color of content boxes
-headerColorOne=headercol1, % Background color for the header in the content boxes (left side)
-headerColorTwo=headercol2, % Background color for the header in the content boxes (right side)
-headerFontColor=headerfontcol, % Text color for the header text in the content boxes
-boxColorOne=boxcolor, % Background color for the content in the content boxes
-headershape=roundedright, % Specify the rounded corner in the content box headers
-headerfont=\Large\sf\bf, % Font modifiers for the text in the content box headers
-textborder=rectangle,
-background=user,
-headerborder=open, % Change to closed for a line under the content box headers
-boxshade=plain
-}
-{}
-%
-%----------------------------------------------------------------------------------------
-%	TITLE AND AUTHOR NAME
-%----------------------------------------------------------------------------------------
-%
-{\sf\bf LiDAR-based place recognition 
-\\ \large Preliminary work on navigation in deformable environments} % Poster title
-{\vspace{1em} Sébastien Michaud, Jean-François Lalonde, Philippe Giguère\\ % Author names
-{\smaller Department of Computer Science and Software Engineering, Laval University}} % Author email addresses
-{\includegraphics[scale=0.12]{./figures/logo.png}} % University/lab logo
-%----------------------------------------------------------------------------------------
-%	INTRODUCTION
-%----------------------------------------------------------------------------------------
+        grid=false,
+        borderColor=bordercol, % Border color of content boxes
+        headerColorOne=headercol1, % Background color for the header in the content boxes (left side)
+        headerColorTwo=headercol2, % Background color for the header in the content boxes (right side)
+        headerFontColor=headerfontcol, % Text color for the header text in the content boxes
+        boxColorOne=boxcolor, % Background color for the content in the content boxes
+        headershape=roundedright, % Specify the rounded corner in the content box headers
+        headerfont=\Large\sf\bf, % Font modifiers for the text in the content box headers
+        textborder=rectangle,
+        background=user,
+        headerborder=open, % Change to closed for a line under the content box headers
+        boxshade=plain
+    }
+    {}
+    %
+    %
+    {\sf\bf LiDAR-based place recognition
+    \\ \large Preliminary work on navigation in deformable environments} % Poster title
+    {\vspace{1em} Sébastien Michaud, Jean-François Lalonde, Philippe Giguère\\ % Author names
+    {\smaller Department of Computer Science and Software Engineering, Laval University}} % Author email addresses
+    {\includegraphics[scale=0.12]{./figures/logo.png}} % University/lab logo
 
-\headerbox{Problematic}{name=introduction,column=0,row=0}{
-\begin{itemize}
-    \item[•]
-    \item[•]
-    \item[•]
-\end{itemize}
+    \headerbox{Problematic}{name=introduction,column=0,row=0}{
+        \begin{itemize}
+            \item[•]
+            \item[•]
+            \item[•]
+        \end{itemize}
 
-}
+    }
 
-%----------------------------------------------------------------------------------------
-%	RESEARCH QUESTION
-%----------------------------------------------------------------------------------------
+    \headerbox{Research Question}{name=question,column=0,below=introduction}{
+    }
 
-\headerbox{Research Question}{name=question,column=0,below=introduction}{
-}
+    \headerbox{Hypothesis}{name=hypothesis,column=0,below=question}{
+    }
 
-%----------------------------------------------------------------------------------------
-%	HYPOTHESIS
-%----------------------------------------------------------------------------------------
+    \headerbox{Nomenclature}{name=nomenclature,column=0,below=hypothesis}{
+    }
 
-\headerbox{Hypothesis}{name=hypothesis,column=0,below=question}{
-}
+    \headerbox{Materials}{name=material,column=0,below=nomenclature}{
+        \textbf{Platform:} Husky A200 \\
+        \textbf{Exteroceptive sensors:} LIDAR (Velodyne)\\
+        \textbf{Proprioceptive sensors:} inertial measurement unit (CH Robotics UM6) \cite{Ho2013}, wheel encoder\cite{Boyraz2013}
+    }
 
-%----------------------------------------------------------------------------------------
-%	NOMENCLATURE
-%----------------------------------------------------------------------------------------
+    \headerbox{References}{name=references,column=0,below=material}{
 
-\headerbox{Nomenclature}{name=nomenclature,column=0,below=hypothesis}{
-}
+        \smaller % Reduce the font size in this block
+        \renewcommand{\section}[2]{\vskip 0.05em} % Get rid of the default "References" section title
+        \nocite{*} % Insert publications even if they are not cited in the poster
 
-%----------------------------------------------------------------------------------------
-%	MATERIALS ...AND METHODS?
-%----------------------------------------------------------------------------------------
+        \bibliographystyle{abbrv}
+        \bibliography{bibliography} % Use sample.bib as the bibliography file
+    }
 
-\headerbox{Materials}{name=material,column=0,below=nomenclature}{
-    \textbf{Platform:} Husky A200 \\
-    \textbf{Exteroceptive sensors:} LIDAR (Velodyne)\\
-    \textbf{Proprioceptive sensors:} inertial measurement unit (CH Robotics UM6) \cite{Ho2013}, wheel encoder\cite{Boyraz2013}
-}
+    \headerbox{Acknowledgements}{name=acknowledgements,column=0,below=references, above=bottom}{
 
-%----------------------------------------------------------------------------------------
-%	REFERENCES
-%----------------------------------------------------------------------------------------
+        \smaller % Reduce the font size in this block
+        We would like to thank \textit{Fonds de recherche - Nature et technologie} (FRQNT).
+    }
 
-\headerbox{References}{name=references,column=0,below=material}{
+    \headerbox{What to put in the poster}{name=mainSolution,span=2,column=1,row=0}{
+        \begin{itemize}
+            \item[•] Global path
+            \item[•] Veloyne vs SICK
+            \item[•] Available Point cloud features 
+        \end{itemize}
+    }
 
-\smaller % Reduce the font size in this block
-\renewcommand{\section}[2]{\vskip 0.05em} % Get rid of the default "References" section title
-\nocite{*} % Insert publications even if they are not cited in the poster
+    \headerbox{Current Conceptual Solution}{name=conceptualSolution,span=2,column=1,below=mainSolution,above=bottom}{ % To reduce this block to 1 column width, remove 'span=2'
 
-\bibliographystyle{abbrv}
-\bibliography{bibliography} % Use sample.bib as the bibliography file
-}
+        \textbf{}
+        \begin{center}
+            \includegraphics[width=0.92\linewidth]{./figures/path2.png}
+            \caption{Google Maps. (2015).}
+        \end{center}
+        %\begin{figure}[]
+            %\centering
+            %\includegraphics[width=0.8\linewidth]{./figures/path.png}
+            %\caption{Approximative acquisition path (Google Maps. (2015))}
+            %\label{fig:path}
+        %\end{figure}
+    }
 
-%----------------------------------------------------------------------------------------
-%	ACKNOWLEDGEMENTS
-%----------------------------------------------------------------------------------------
-
-\headerbox{Acknowledgements}{name=acknowledgements,column=0,below=references, above=bottom}{
-
-\smaller % Reduce the font size in this block
-We would like to thank \textit{Fonds de recherche - Nature et technologie} (FRQNT).
-} 
-
-%----------------------------------------------------------------------------------------
-%	RESULTS 1
-%----------------------------------------------------------------------------------------
-
-\headerbox{Global Self-Supervised Framework}{name=mainSolution,span=2,column=1,row=0}{
-}
-
-%----------------------------------------------------------------------------------------
-%	RESULTS 2
-%----------------------------------------------------------------------------------------
-
-\headerbox{Current Conceptual Solution}{name=conceptualSolution,span=2,column=1,below=mainSolution,above=bottom}{ % To reduce this block to 1 column width, remove 'span=2'
-
-\textbf{Exteroceptive data processing:}
-
-\textbf{Obstacles traversability measurement:}
-
-}
-
-%----------------------------------------------------------------------------------------
+    %----------------------------------------------------------------------------------------
 
 \end{poster}
 
