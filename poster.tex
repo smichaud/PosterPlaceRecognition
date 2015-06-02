@@ -67,34 +67,45 @@
     {}
     %
     %
-    {\sf\bf LiDAR-based place recognition
-    \\ \large Preliminary work on navigation in deformable environments} % Poster title
+    {\sf\bf Investigation of LiDAR-based place recognition in forest}
+    %\\ \large Preliminary work on navigation in deformable environments} % Poster title
     {\vspace{1em} Sébastien Michaud, Jean-François Lalonde, Philippe Giguère\\ % Author names
     {\smaller Department of Computer Science and Software Engineering, Laval University}} % Author email addresses
     {\includegraphics[scale=0.12]{./figures/logo.png}} % University/lab logo
 
     \headerbox{Problematic}{name=introduction,column=0,row=0}{
         \begin{itemize}
-            \item[•]
-            \item[•]
-            \item[•]
+            \item[•] Localization and mapping algorithms require the identification of previously seen places.
+            \item[•] Currently available 3D data features might not be reliable for unstructured outdoor environments.
+            \item[•] Many objects in forests are subject to deformation or changes over time and can therefore make place recognition challenging.
         \end{itemize}
 
     }
 
     \headerbox{Research Question}{name=question,column=0,below=introduction}{
+        How to use 3D range data to recognize previously visited place in unstructured outdoor environments such as forests?
     }
 
     \headerbox{Hypothesis}{name=hypothesis,column=0,below=question}{
+        \begin{itemize}
+            \item[•] Some features are better suited for unstructured outdoor environments.
+            \item[•] Some area of the environments are more reliable over time (e.g. tree trunks)
+            \item[•]
+
+        \end{itemize}
     }
 
     \headerbox{Nomenclature}{name=nomenclature,column=0,below=hypothesis}{
+        \begin{itemize}
+            \item[•] Features
+            \item[•] Unstructured environments
+        \end{itemize}
     }
 
     \headerbox{Materials}{name=material,column=0,below=nomenclature}{
         \textbf{Platform:} Husky A200 \\
-        \textbf{Exteroceptive sensors:} LIDAR (Velodyne)\\
-        \textbf{Proprioceptive sensors:} inertial measurement unit (CH Robotics UM6) \cite{Ho2013}, wheel encoder\cite{Boyraz2013}
+        \textbf{Sensors:} LIDAR (Velodyne)\\
+        Inertial measurement unit (CH Robotics UM6) \cite{Ho2013}, wheel encoder\cite{Boyraz2013}
     }
 
     \headerbox{References}{name=references,column=0,below=material}{
@@ -104,36 +115,31 @@
         \nocite{*} % Insert publications even if they are not cited in the poster
 
         \bibliographystyle{abbrv}
-        \bibliography{bibliography} % Use sample.bib as the bibliography file
+        \bibliography{bibliography}
     }
 
     \headerbox{Acknowledgements}{name=acknowledgements,column=0,below=references, above=bottom}{
-
-        \smaller % Reduce the font size in this block
-        We would like to thank \textit{Fonds de recherche - Nature et technologie} (FRQNT).
+        \smaller
+        We would like to thank \textit{Fonds de recherche - Nature et technologie} (FRQNT) and \textit{Natural Sciences and Engineering Research Council of Canada} (NSERC).
     }
 
     \headerbox{What to put in the poster}{name=mainSolution,span=2,column=1,row=0}{
         \begin{itemize}
-            \item[•] Global path
-            \item[•] Veloyne vs SICK
-            \item[•] Available Point cloud features 
+            \item[•] Write what I would like to investigate (features reliability, point cloud density, area of interest aka tree trunks...)
+            \item[•] Velodyne vs SICK
+            \item[•] Available Point cloud features
         \end{itemize}
     }
 
     \headerbox{Current Conceptual Solution}{name=conceptualSolution,span=2,column=1,below=mainSolution,above=bottom}{ % To reduce this block to 1 column width, remove 'span=2'
-
-        \textbf{}
         \begin{center}
-            \includegraphics[width=0.92\linewidth]{./figures/path2.png}
-            \caption{Google Maps. (2015).}
+            \includegraphics[width=0.92\linewidth]{./figures/path2.png}\\*
+            Approximative acquisition path. \textit{Source: Google Maps. (2015)}
         \end{center}
-        %\begin{figure}[]
-            %\centering
-            %\includegraphics[width=0.8\linewidth]{./figures/path.png}
-            %\caption{Approximative acquisition path (Google Maps. (2015))}
-            %\label{fig:path}
-        %\end{figure}
+        \begin{center}
+            \includegraphics[width=0.92\linewidth]{./figures/VelodyneVsSick.png}\\*
+            Point clouds produced by the SICK(Left) and the Velodyne(Right).
+        \end{center}
     }
 
     %----------------------------------------------------------------------------------------
