@@ -68,15 +68,16 @@
     %
     %
     {\sf\bf Investigation of LiDAR-based place recognition in forest}
-    %\\ \large Preliminary work on navigation in deformable environments} % Poster title
     {\vspace{0.2em} Sébastien Michaud$^1$, Jean-François Lalonde$^2$, Philippe Giguère$^1$\\* % Author names
         {\vspace{-0.4em}\small $^1$Department of Computer Science and Software Engineering, Laval University}\\*
         {\vspace{-0.2em}\small $^2$Department of Electrical Engineering and Computer Engineering, Laval University}}
     {\includegraphics[scale=0.12]{./figures/logo.png}} % University/lab logo
 
-    \headerbox{Problematic}{name=introduction,column=0,row=0}{
+    \headerbox{Problem}{name=introduction,column=0,row=0}{
         \begin{itemize}
             \item[•] Localization and mapping algorithms require the identification of previously seen places.
+            % [TODO]: Review next point - 2015-06-06 04:01pm
+            \item[•] Non-planar 3D scenes such as forest might have widely varying appearance with small position changes or suffer from appearance aliasing
             \item[•] Currently available 3D data features might not be reliable for unstructured outdoor environments.
             \item[•] Many objects in forests deform or change over time and can therefore make place recognition challenging.
         \end{itemize}
@@ -84,27 +85,26 @@
     }
 
     \headerbox{Research Question}{name=question,column=0,below=introduction}{
-        How to use 3D range data to recognize previously visited places in forested environments?
+        How to use 3D range data to recognize rapidly previously visited places in unstructured environments such as a forest ?
     }
 
     \headerbox{Hypothesis}{name=hypothesis,column=0,below=question}{
-        Using forest specific 3D features and restricting the search space to regions that are stable over time could improve place recognition results.
+        Using forest-specific 3D features and restricting the search space to regions that are stable over time could improve place recognition results.
     }
 
     \headerbox{Nomenclature}{name=nomenclature,column=0,below=hypothesis}{
         \textbf{Place recognition:} Association of a new 3D acquisition to a previous scan.\\
-        \textbf{[3D] Feature:} Representation of a subset of the 3D data that is relevant to solve the place recognition problem.\\
-        \textbf{Bag of words (BoW):} Histogram representation of the 3D features count for a given scan.
-        Representation of a scan by the histogram of the 3D features counts, disregarding spatial configuration.\\
+        \textbf{Bag of words (BoW):} Representation of a scan by the histogram of the 3D feature counts, disregarding spatial configuration.\\
         \textbf{Unstructured environments:} Environments in which no predefined structure is available to guide the robot task.
     }
 
-    \headerbox{Materials}{name=material,column=0,below=nomenclature}{
+    \headerbox{Equipment}{name=material,column=0,below=nomenclature}{
         \textbf{Platform:} Husky A200 \\
         \textbf{LiDAR:} SICK LMS151 or Velodyne HDL-32E\\
-        \textbf{Others:} FLIR Motion Control Systems Pan-Tilt Unit-D46-17, CH Robotics UM6 inertial measurement unit
+        \textbf{Others:} Pan-Tilt Unit-D46-17, UM6 inertial measurement unit
     }
 
+    % [TODO]: Replace authors by firstauthor et al. - 2015-06-06 04:01pm    
     \headerbox{References}{name=references,column=0,below=material}{
         \smaller % Reduce the font size in this block
         \renewcommand{\section}[2]{\vskip 0.05em} % Get rid of the default "References" section title
@@ -119,30 +119,55 @@
         We would like to thank \textit{Fonds de recherche - Nature et technologie} (FRQNT) and \textit{Natural Sciences and Engineering Research Council of Canada} (NSERC).
     }
 
-    \headerbox{Framework base algorithm \cite{Steder2002}}{name=mainSolution,span=2,column=1,row=0}{
+    % [TODO]: selon ton algo, on doit recréer le dictionnaire à chaque nouveau z*. Est-ce vraiment le cas? Souvent, le dico est fixe, trainé en offline. 1. serait donc en dehors de la loop avec z*  - 2015-06-06 04:02pm
+    \headerbox{Algorithm overview\cite{Steder2002}}{name=mainSolution,span=2,column=1,row=0}{
+        Using a dataset of 3D scans $\mathcal{D}$ and a new acquisition $z^*$:
         \begin{enumerate}
-            \item Build a dictionary (i.e. set of features) from all 3D scans.
-            \item Use BoW approach to get initial similarity measure for all scans in the database.
-            \item For each ordered correspondence of the scan, calculate a set of possibles transformations between the scan and all previous acquisition.
-            \item Score each of the possible transformation and keep the transformation with the highest score. If score > treshold : candidate for recognized place
-            \item *. 3-4 until timeout or iteration maxed
+            \item Create a dictionary (i.e. set of features) from $\mathcal{D}$.
+            \item Given $z^*$, use the BoW approach to get an initial similarity measure for all scans in $\mathcal{D}$.
+            \item Starting from the most similar scan of $\mathcal{D}$, compute a set of possible transformations with respect to $z^*$.
+            \item Score each of the possible transformation and keep the transformation with the highest score. If the score is greater than a predefined treshold, keep this scan as a candidate for recognized place.
+            \item Repeat steps 3 and 4 until a maximum number of iteration or a time limit is reached.
         \end{enumerate}
     }
 
-    \headerbox{Find a section title}{name=conceptualSolution,span=2,column=1,below=mainSolution,above=bottom}{ % To reduce this block to 1 column width, remove 'span=2'
-        \textbf{3D features : ISS, NARF, Spin Images, 3D SIFT, SPOT, FPFH, VFH, RIFT}
-        \begin{itemize}
-            \item[•] Write what I would like to investigate (features reliability, point cloud density, region of interest aka tree trunks...)
-            \item[•] Velodyne vs SICK
-            \item[•] Available Point cloud features
-        \end{itemize}
-
-        \textbf{Dataset acquisition path (left) and sample point cloud (right)}
+    \headerbox{Current development and solutions to investigate}{name=conceptualSolution,span=2,column=1,below=mainSolution,above=bottom}{ % To reduce this block to 1 column width, remove 'span=2'
+        \textbf{Status of our work}\\
+        A first dataset was acquired and we are working on integrating it to the framework of \textit{Steder et al.}~\cite{Steder2002}. The picture on the left shows the acquisition path on the Laval University campus and the picture on the right shows a scan from the SICK LMS151 mounted on the Pan-Tilt Unit-D46-17.
         \begin{center}
             \includegraphics[width=0.455\linewidth]{./figures/path2.png}
-            \includegraphics[width=0.48\linewidth]{./figures/sick.png}\\*
-            Source: Google Maps (2015)
+            \includegraphics[width=0.48\linewidth]{./figures/sick.png}\\\vspace{-0.8em}
+            \begin{flushleft}
+                \hspace{1.25em}\tiny Source: Google Maps, (2015)
+            \end{flushleft}
         \end{center}
+
+        \textbf{Region of interest}\\
+        For localization and mapping in forested environments, tree trunks are generally considered as reliable features \cite{Song2012}. To take advantage of this information, it might be desirable to \textbf{limit the region of the 3D data} used to a height that is generally above the low vegetation and obstructions, but below secondary stems and other canopy \cite{Mcdaniel2012}. It might increase the robustness against the effect of seasonal changes such as snow coverage and foliage). The figure below shows a potential region of interest that highlight how most trees stand out from other structures.
+        \begin{center}
+            \includegraphics[width=0.95\linewidth]{./figures/pointcloudSlice.png}
+        \end{center}
+
+        \textbf{Spatial information for features}\\
+        Using BoW removes any spatial dependency between features. Adding low-level spatial information constraint such as feature height might reduce potential mismatch between the input scan and database samples.\vspace{1em}
+
+        \textbf{Data density}\\
+        Investigating the relation between data density and scan matching reliability could also lead to a better trade-off between processing time and results quality.\vspace{1em}
+
+        \textbf{Potential 3D features}\\
+        There are currently multiple 3D features reported in the literature, for instance:
+        % [TODO]: Create a table with this ! - 2015-06-06 04:44pm
+        \begin{itemize}
+            \item[•] Intrinsic Shape Signatures (ISS);
+            \item[•] Normal-Aligned Radial Features (NARF);
+            \item[•] Signatures of Histograms of OrienTations (SHOT);
+            \item[•] Fast Point Feature Histogram (FPFH).
+        \end{itemize}
+        Additionally, \textbf{comparative evaluations} \cite{boyer2011shrec} \cite{Filipe2014} are also available for a subset of those features, but work is limited to man-made objects and might yield different results in unstructured environments. Also, a \textbf{feature learning} approach could lead to better results for specific environments such as forest.\vspace{1em}
+
+        \textbf{Point cloud based vs range image based features}\\
+        % [TODO]: Finish this up - 2015-06-06 04:44pm
+        Using point cloud features instead of range images could benefit from incremental information (merging point clouds vs single point of view), as well help when an environment is seen from a different point of view (trees seen from behind).
     }
 
     %----------------------------------------------------------------------------------------
