@@ -18,6 +18,7 @@
 \usepackage[utf8]{inputenc} % input encoding : utf8, latin9, latin1
 \usepackage[french]{babel} % document language : typography + titles...
 \usepackage[T1]{fontenc} % font encoding : ö = single letter and not o + accent
+\usepackage{enumitem}
 
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows}
@@ -76,8 +77,7 @@
     \headerbox{Problem}{name=introduction,column=0,row=0}{
         \begin{itemize}
             \item[•] Localization and mapping algorithms require the identification of previously seen places.
-            % [TODO]: Review next point - 2015-06-06 04:01pm
-            \item[•] Non-planar 3D scenes such as forest might have widely varying appearance with small position changes or suffer from appearance aliasing
+            \item[•] Complex 3D scenes such as forest might have widely varying appearance with small position changes or suffer from appearance aliasing
             \item[•] Currently available 3D data features might not be reliable for unstructured outdoor environments.
             \item[•] Many objects in forests deform or change over time and can therefore make place recognition challenging.
         \end{itemize}
@@ -92,19 +92,17 @@
         Using forest-specific 3D features and restricting the search space to regions that are stable over time could improve place recognition results.
     }
 
-    \headerbox{Nomenclature}{name=nomenclature,column=0,below=hypothesis}{
-        \textbf{Place recognition:} Association of a new 3D acquisition to a previous scan.\\
-        \textbf{Bag of words (BoW):} Representation of a scan by the histogram of the 3D feature counts, disregarding spatial configuration.\\
-        \textbf{Unstructured environments:} Environments in which no predefined structure is available to guide the robot task.
-    }
+    %\headerbox{Nomenclature}{name=nomenclature,column=0,below=hypothesis}{
+        %\textbf{Place recognition:} Association of a new 3D acquisition to a previous scan.\\
+        %\textbf{Bag of words (BoW):} Representation of a scan by the histogram of the 3D feature counts, disregarding spatial configuration.\\
+    %}
 
-    \headerbox{Equipment}{name=material,column=0,below=nomenclature}{
+    \headerbox{Equipment}{name=material,column=0,below=hypothesis}{
         \textbf{Platform:} Husky A200 \\
         \textbf{LiDAR:} SICK LMS151 or Velodyne HDL-32E\\
         \textbf{Others:} Pan-Tilt Unit-D46-17, UM6 inertial measurement unit
     }
 
-    % [TODO]: Replace authors by firstauthor et al. - 2015-06-06 04:01pm    
     \headerbox{References}{name=references,column=0,below=material}{
         \smaller % Reduce the font size in this block
         \renewcommand{\section}[2]{\vskip 0.05em} % Get rid of the default "References" section title
@@ -119,17 +117,18 @@
         We would like to thank \textit{Fonds de recherche - Nature et technologie} (FRQNT) and \textit{Natural Sciences and Engineering Research Council of Canada} (NSERC).
     }
 
-    % [TODO]: selon ton algo, on doit recréer le dictionnaire à chaque nouveau z*. Est-ce vraiment le cas? Souvent, le dico est fixe, trainé en offline. 1. serait donc en dehors de la loop avec z*  - 2015-06-06 04:02pm
     \headerbox{Algorithm overview\cite{Steder2002}}{name=mainSolution,span=2,column=1,row=0}{
-        Using a dataset of 3D scans $\mathcal{D}$ and a new acquisition $z^*$:
         \begin{enumerate}
-            \item Create a dictionary (i.e. set of features) from $\mathcal{D}$.
-            \item Given $z^*$, use the BoW approach to get an initial similarity measure for all scans in $\mathcal{D}$.
-            \item Starting from the most similar scan of $\mathcal{D}$, compute a set of possible transformations with respect to $z^*$.
-            \item Score each of the possible transformation and keep the transformation with the highest score. If the score is greater than a predefined treshold, keep this scan as a candidate for recognized place.
-            \item Repeat steps 3 and 4 until a maximum number of iteration or a time limit is reached.
+            \item Using a dataset of 3D scans $\mathcal{D}$, create a dictionary (i.e. set of features).
+            \item  For every new acquisition $z^*$:
+            \begin{enumerate}[label*=\arabic*.]
+                \item Use the bag of words (BoW) approach to get an initial similarity measure for all scans in $\mathcal{D}$;
+                \item Starting from the most similar scan of $\mathcal{D}$, compute a set of possible transformations with respect to $z^*$;
+                \item Score each of the possible transformation and keep the transformation with the highest score. If the score is greater than a predefined threshold, keep this scan as a candidate for recognized place;
+                \item Repeat steps 2.2 and 2.3 until a maximum number of iteration or a time limit is reached.
+            \end{enumerate}
         \end{enumerate}
-    }
+}
 
     \headerbox{Current development and solutions to investigate}{name=conceptualSolution,span=2,column=1,below=mainSolution,above=bottom}{ % To reduce this block to 1 column width, remove 'span=2'
         \textbf{Status of our work}\\
@@ -143,13 +142,14 @@
         \end{center}
 
         \textbf{Region of interest}\\
-        For localization and mapping in forested environments, tree trunks are generally considered as reliable features \cite{Song2012}. To take advantage of this information, it might be desirable to \textbf{limit the region of the 3D data} used to a height that is generally above the low vegetation and obstructions, but below secondary stems and other canopy \cite{Mcdaniel2012}. It might increase the robustness against the effect of seasonal changes such as snow coverage and foliage). The figure below shows a potential region of interest that highlight how most trees stand out from other structures.
+        For localization and mapping in forested environments, tree trunks are generally considered as reliable features \cite{Song2012}. To take advantage of this information, it might be desirable to \textbf{limit the region of the 3D data} used to a height that is generally above the low vegetation and obstructions, but below secondary stems and other canopy \cite{Mcdaniel2012}. It might increase the robustness against the effect of seasonal changes such as snow coverage and foliage. The figure below shows a potential region of interest that highlight how most trees stand out from other structures.
         \begin{center}
             \includegraphics[width=0.95\linewidth]{./figures/pointcloudSlice.png}
         \end{center}
 
         \textbf{Spatial information for features}\\
         Using BoW removes any spatial dependency between features. Adding low-level spatial information constraint such as feature height might reduce potential mismatch between the input scan and database samples.\vspace{1em}
+        % [TODO]: ??? This is similar to geometric constraints employed in many visual SLAM approaches, such as FABMAP.
 
         \textbf{Data density}\\
         Investigating the relation between data density and scan matching reliability could also lead to a better trade-off between processing time and results quality.\vspace{1em}
@@ -158,19 +158,16 @@
         There are currently multiple 3D features reported in the literature, for instance:
         % [TODO]: Create a table with this ! - 2015-06-06 04:44pm
         \begin{itemize}
-            \item[•] Intrinsic Shape Signatures (ISS);
-            \item[•] Normal-Aligned Radial Features (NARF);
-            \item[•] Signatures of Histograms of OrienTations (SHOT);
-            \item[•] Fast Point Feature Histogram (FPFH).
+            \item[•] Intrinsic Shape Signatures (ISS) \cite{Yu2009};
+            \item[•] Normal-Aligned Radial Features (NARF) \cite{Steder2011};
+            \item[•] Signatures of Histograms of OrienTations (SHOT) \cite{Tombari2010};
+            \item[•] Fast Point Feature Histogram (FPFH) \cite{Rusu2009}.
         \end{itemize}
-        Additionally, \textbf{comparative evaluations} \cite{boyer2011shrec} \cite{Filipe2014} are also available for a subset of those features, but work is limited to man-made objects and might yield different results in unstructured environments. Also, a \textbf{feature learning} approach could lead to better results for specific environments such as forest.\vspace{1em}
+        Additionally, \textbf{comparative evaluations} \cite{Boyer2011} \cite{Filipe2014} are also available for a subset of those features, but work is limited to man-made objects and might yield different results in unstructured environments. Also, a \textbf{feature learning} approach could lead to better results for specific environments such as forest.\vspace{1em}
 
         \textbf{Point cloud based vs range image based features}\\
-        % [TODO]: Finish this up - 2015-06-06 04:44pm
-        Using point cloud features instead of range images could benefit from incremental information (merging point clouds vs single point of view), as well help when an environment is seen from a different point of view (trees seen from behind).
+        Using features based on point cloud instead of range images could benefit from incremental information by merging multiple acquisitions. It might improve results when an environment is seen from a different point of view (trees seen from behind).
     }
-
-    %----------------------------------------------------------------------------------------
 
 \end{poster}
 
