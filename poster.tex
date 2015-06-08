@@ -142,7 +142,7 @@
         \end{center}
 
         \textbf{Region of interest}\\
-        For localization and mapping in forested environments, tree trunks are generally considered as reliable features ~\cite{Song2012}. To take advantage of this information, it might be desirable to \textbf{limit the region of the 3D data} used to a height that is generally above the low vegetation and obstructions, but below secondary stems and other canopy ~\cite{Mcdaniel2012}. It might increase the robustness against the effect of seasonal changes such as snow coverage and foliage. The figure below shows a potential region of interest that highlight how most trees stand out from other structures.
+        For localization and mapping in forested environments, tree trunks are generally considered as reliable features ~\cite{Song2012}. To take advantage of this information, it might be desirable to \textbf{limit the region of the 3D data} used to a height that is generally above the low vegetation and obstructions, but below secondary stems and other canopy ~\cite{Mcdaniel2012}. It might increase the robustness against the effect of seasonal changes such as snow coverage and foliage. The figure below shows a potential region of interest that highlights how most trees stand out from other structures.
         \begin{center}
             \includegraphics[width=0.95\linewidth]{./figures/pointcloudSlice.png}
         \end{center}
@@ -164,8 +164,8 @@
         \end{itemize}
         Additionally, \textbf{comparative evaluations} ~\cite{Boyer2011} ~\cite{Filipe2014} are also available for a subset of those features, but work is limited to man-made objects and might yield different results in unstructured environments. Also, a \textbf{feature learning} approach could lead to better results for specific environments such as forest.\vspace{1em}
 
-        \textbf{Merged scan features}\\
-        Multiple point clouds could be merged together before features extraction. This process might \textbf{give additional information about the 3D geometry of the scene} and could therefore improve matching results when an environment is seen from a different point of view. Note that this would only be possible for point cloud based features and not range images based features.
+        \textbf{Features from merged scans}\\
+        Multiple point clouds could be merged together before features extraction. This process might \textbf{give additional information about the 3D geometry of the scene} and could therefore improve matching results when an environment is seen from a different point of view. Note that this would only be possible for point cloud based features and not for range images based features.
     }
 
 \end{poster}
