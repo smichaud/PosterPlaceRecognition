@@ -77,7 +77,7 @@
     \headerbox{Problem}{name=introduction,column=0,row=0}{
         \begin{itemize}
             \item[•] Localization and mapping algorithms require the identification of previously seen places.
-            \item[•] Complex 3D scenes such as forest might have widely varying appearance with small position changes or suffer from appearance aliasing
+            \item[•] Complex 3D scenes such as forest might have widely varying appearance with small position changes or suffer from appearance aliasing.
             \item[•] Currently available 3D data features might not be reliable for unstructured outdoor environments.
             \item[•] Many objects in forests deform or change over time and can therefore make place recognition challenging.
         \end{itemize}
@@ -85,7 +85,7 @@
     }
 
     \headerbox{Research Question}{name=question,column=0,below=introduction}{
-        How to use 3D range data to recognize rapidly previously visited places in unstructured environments such as a forest ?
+        How to use 3D range data to recognize rapidly previously visited places in unstructured environments such as a forest?
     }
 
     \headerbox{Hypothesis}{name=hypothesis,column=0,below=question}{
@@ -125,14 +125,14 @@
                 \item Use the bag of words (BoW) approach to get an initial similarity measure for all scans in~$\mathcal{D}$;
                 \item Starting from the most similar scan of $\mathcal{D}$, compute a set of possible transformations with respect to $z^*$;
                 \item Score each of the possible transformation and keep the transformation with the highest score. If the score is greater than a predefined threshold, keep this scan as a candidate for recognized place;
-                \item Repeat steps 2.2 and 2.3 until a maximum number of iteration or a time limit is reached.
+                \item Repeat steps 2.2 and 2.3 until a maximum number of iterations or a time limit is reached.
             \end{enumerate}
         \end{enumerate}
 }
 
     \headerbox{Current development and solutions to investigate}{name=conceptualSolution,span=2,column=1,below=mainSolution,above=bottom}{ % To reduce this block to 1 column width, remove 'span=2'
         \textbf{Status of our work}\\
-        A first dataset was acquired and we are working on integrating it to the framework of \textit{Steder et al.}~\cite{Steder2002}. The picture on the left shows the acquisition path on the Laval University campus and the picture on the right shows a scan from the SICK LMS151 mounted on the Pan-Tilt Unit-D46-17.
+        A first dataset was acquired and we are working on integrating it to the framework of \textit{Steder et al.} ~\cite{Steder2002}. The picture on the left shows the acquisition path on the Laval University campus and the picture on the right shows a scan from the SICK LMS151 mounted on the Pan-Tilt Unit-D46-17.
         \begin{center}
             \includegraphics[width=0.455\linewidth]{./figures/path2.png}
             \includegraphics[width=0.48\linewidth]{./figures/sick.png}\\\vspace{-0.8em}
@@ -156,17 +156,16 @@
 
         \textbf{Potential 3D features}\\
         There are currently multiple 3D features reported in the literature, for instance:
-        % [TODO]: Create a table with this ! - 2015-06-06 04:44pm
         \begin{itemize}
-            \item[•] Intrinsic Shape Signatures (ISS) ~\cite{Yu2009};
-            \item[•] Normal-Aligned Radial Features (NARF) ~\cite{Steder2011};
-            \item[•] Signatures of Histograms of OrienTations (SHOT) ~\cite{Tombari2010};
-            \item[•] Fast Point Feature Histogram (FPFH) ~\cite{Rusu2009}.
+            \item[•] Intrinsic Shape Signatures (\textbf{ISS}) ~\cite{Yu2009};
+            \item[•] Normal-Aligned Radial Features (\textbf{NARF}) ~\cite{Steder2011};
+            \item[•] Signatures of Histograms of OrienTations (\textbf{SHOT}) ~\cite{Tombari2010};
+            \item[•] Fast Point Feature Histogram (\textbf{FPFH}) ~\cite{Rusu2009}.
         \end{itemize}
         Additionally, \textbf{comparative evaluations} ~\cite{Boyer2011} ~\cite{Filipe2014} are also available for a subset of those features, but work is limited to man-made objects and might yield different results in unstructured environments. Also, a \textbf{feature learning} approach could lead to better results for specific environments such as forest.\vspace{1em}
 
-        \textbf{Point cloud based vs range image based features}\\
-        Using features based on point cloud instead of range images could benefit from incremental information by merging multiple acquisitions. It might improve results when an environment is seen from a different point of view (trees seen from behind).
+        \textbf{Merged scan features}\\
+        Multiple point clouds could be merged together before features extraction. This process might \textbf{give additional information about the 3D geometry of the scene} and could therefore improve matching results when an environment is seen from a different point of view. Note that this would only be possible for point cloud based features and not range images based features.
     }
 
 \end{poster}
